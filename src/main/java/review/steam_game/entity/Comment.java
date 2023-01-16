@@ -4,10 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import review.steam_game.dto.detail.CommentRequestDto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -28,6 +25,11 @@ public class Comment {
     //조회수
     @Column(nullable = false)
     private Long views;
+
+
+    @ManyToOne
+    @JoinColumn(name = "post_Id")
+    private Post post;
 
     public Comment(CommentRequestDto commentRequestDto){
         this.comment = commentRequestDto.getComment();

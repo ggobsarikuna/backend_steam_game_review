@@ -16,10 +16,6 @@ import java.util.List;
 @Secured(UserRoleEnum.Authority.ADMIN)
 public class AdminFunctionController {
     private final AdminFunctionService adminFunctionService;
-    @GetMapping("/api/post")
-    public List<Post> getPost(){
-        return adminFunctionService.getpost();
-    }
 
     @PostMapping("/api/post")
     @ResponseBody
