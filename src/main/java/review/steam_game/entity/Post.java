@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import review.steam_game.dto.post.PostRequestDto;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -22,6 +24,9 @@ public class Post {
 
     @Column(nullable = false)
     private String image;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<Comment> commentList = new ArrayList<>();
 
     public Post(PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import review.steam_game.dto.post.PostRequestDto;
 import review.steam_game.entity.Post;
-import review.steam_game.repository.user.PostRepository;
+import review.steam_game.repository.post.PostRepository;
 
 import java.util.List;
 
@@ -12,9 +12,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminFunctionService {
     private final PostRepository postRepository;
-    public List<Post> getpost() {
-        return postRepository.findAll();
-    }
     public Post createPost(PostRequestDto postRequestDto) {
         Post post = new Post(postRequestDto);
         postRepository.save(post);
