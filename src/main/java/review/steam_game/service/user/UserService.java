@@ -1,6 +1,7 @@
 package review.steam_game.service.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import review.steam_game.config.exception.CheckApiException;
@@ -8,8 +9,8 @@ import review.steam_game.config.exception.ErrorCode;
 import review.steam_game.config.jwt.JwtUtil;
 import review.steam_game.dto.user.UserLoginDto;
 import review.steam_game.dto.user.UserSignUpDto;
-import review.steam_game.entity.User;
-import review.steam_game.entity.UserRoleEnum;
+import review.steam_game.entity.user.User;
+import review.steam_game.entity.user.UserRoleEnum;
 import review.steam_game.repository.user.UserRepository;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,10 +24,12 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public void signUp(UserSignUpDto userSignUpDto) {
         String userid = userSignUpDto.getUserid();
-        String password = userSignUpDto.getPassword();
+        String password = passwordEncoder.encode(userSignUpDto.getPassword());
         String email = userSignUpDto.getEmail();
         UserRoleEnum role = UserRoleEnum.USER;
 
@@ -47,7 +50,7 @@ public class UserService {
 
         User user = userRepository.findByUserid(userid).orElseThrow(() -> new CheckApiException(ErrorCode.NOT_EXISTS_USER));
 
-        if (!user.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new CheckApiException(ErrorCode.NOT_EQUALS_PASSWORD);
         }
 

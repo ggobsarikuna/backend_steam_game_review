@@ -1,4 +1,4 @@
-package review.steam_game.entity;
+package review.steam_game.entity.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Entity(name = "users")
+@Entity(name = "USERS")
 public class User {
 
     @Id

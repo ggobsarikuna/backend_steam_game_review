@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import review.steam_game.config.security.UserDetailsServiceImpl;
-import review.steam_game.entity.UserRoleEnum;
+import review.steam_game.entity.user.UserRoleEnum;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
