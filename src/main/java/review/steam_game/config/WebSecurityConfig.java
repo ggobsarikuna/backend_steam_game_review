@@ -24,7 +24,7 @@ public class WebSecurityConfig {
 
     private final JwtUtil jwtUtil;
 
-    private static final String[] PERMIT_URL = {
+    private static final String[] SWAGGER_URL = {
             "/v2/api-docs",
             "/swagger-resources",
             "/swagger-resources/**",
@@ -36,6 +36,14 @@ public class WebSecurityConfig {
             "/swagger-ui/**"
     };
 
+    private static final String[] MAIN_URL = {
+
+    };
+
+    private static final String[] DETAIL_URL = {
+
+    };
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -45,7 +53,7 @@ public class WebSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
 
         return (web) -> web.ignoring()
-                .requestMatchers(PathRequest.toH2Console())
+                //.requestMatchers(PathRequest.toH2Console())
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
@@ -57,13 +65,13 @@ public class WebSecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests().antMatchers("/api/auth/**").permitAll()
-                .antMatchers(PERMIT_URL).permitAll()
+                .antMatchers(SWAGGER_URL).permitAll()
+                .antMatchers(MAIN_URL).permitAll()
+                .antMatchers(DETAIL_URL).permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
-
 
 }
