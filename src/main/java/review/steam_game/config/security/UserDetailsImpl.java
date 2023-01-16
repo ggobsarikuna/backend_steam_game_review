@@ -3,8 +3,8 @@ package review.steam_game.config.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import review.steam_game.entity.User;
-import review.steam_game.entity.UserRoleEnum;
+import review.steam_game.entity.user.User;
+import review.steam_game.entity.user.UserRoleEnum;
 
 import java.util.ArrayList;
 import java.util.Collection;
