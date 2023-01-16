@@ -14,10 +14,20 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Comment {
     @Id @GeneratedValue
-    private Long id;
+    @Column(name = "comment_id")
+    private Long Id;
+
 
     @Column(nullable = false)
     private String comment;
+
+
+    @Column(nullable = false)
+    private Long apiId;
+
+    //조회수
+    @Column(nullable = false)
+    private Long views;
 
     public Comment(CommentRequestDto commentRequestDto){
         this.comment = commentRequestDto.getComment();
