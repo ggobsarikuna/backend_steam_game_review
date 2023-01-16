@@ -9,5 +9,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Optional<Comment> findById(Long Id);
 
-    Optional<Comment> findByUserid(String userid);
 }
