@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import review.steam_game.entity.User;
+import review.steam_game.entity.user.User;
 import review.steam_game.repository.user.UserRepository;
 
 @Service

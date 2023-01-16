@@ -9,8 +9,8 @@ import review.steam_game.config.exception.ErrorCode;
 import review.steam_game.config.jwt.JwtUtil;
 import review.steam_game.dto.user.UserLoginDto;
 import review.steam_game.dto.user.UserSignUpDto;
-import review.steam_game.entity.User;
-import review.steam_game.entity.UserRoleEnum;
+import review.steam_game.entity.user.User;
+import review.steam_game.entity.user.UserRoleEnum;
 import review.steam_game.repository.user.UserRepository;
 
 import javax.servlet.http.HttpServletResponse;

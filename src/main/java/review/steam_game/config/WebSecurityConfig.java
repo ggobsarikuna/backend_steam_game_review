@@ -37,7 +37,7 @@ public class WebSecurityConfig {
     };
 
     private static final String[] MAIN_URL = {
-
+            "/api/main/searchGame"
     };
 
     private static final String[] DETAIL_URL = {

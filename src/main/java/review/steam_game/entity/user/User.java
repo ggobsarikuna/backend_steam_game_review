@@ -1,4 +1,4 @@
-package review.steam_game.entity;
+package review.steam_game.entity.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
