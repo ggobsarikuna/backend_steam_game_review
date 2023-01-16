@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import review.steam_game.dto.post.PostRequestDto;
 import review.steam_game.entity.Post;
-import review.steam_game.entity.UserRoleEnum;
+import review.steam_game.entity.user.UserRoleEnum;
 import review.steam_game.service.admin.AdminFunctionService;
 
 import java.util.List;

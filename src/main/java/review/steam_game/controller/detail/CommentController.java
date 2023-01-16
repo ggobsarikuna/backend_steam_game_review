@@ -15,14 +15,14 @@ public class CommentController {
 
     //댓글 작성
     @PostMapping("comment/{postId}")
-    public String createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto){
+    public String createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto) {
         return commentService.createComment(commentRequestDto);
     }
 
     //댓글 수정
     @PatchMapping("/comment/{postId}/{commentId}")
-    public String updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        if (userDetails.getUsername().equals(commentRequestDto.getUserid()) || userDetails.getAuthorities().equals("ROLE_ADMIN")){
+    public String updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails.getUsername().equals(commentRequestDto.getUserid()) || userDetails.getAuthorities().equals("ROLE_ADMIN")) {
             return commentService.updateComment(commentId, commentRequestDto);
         }
         return "수정 권한이 없습니다!";
@@ -30,8 +30,8 @@ public class CommentController {
 
     //댓글 삭제
     @DeleteMapping("/comment/{postId}/{commentId}")
-    public String deleteComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        if (userDetails.getUsername().equals(commentRequestDto.getUserid()) || userDetails.getAuthorities().equals("ROLE_ADMIN")){
+    public String deleteComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails.getUsername().equals(commentRequestDto.getUserid()) || userDetails.getAuthorities().equals("ROLE_ADMIN")) {
             return commentService.deleteComment(commentId);
         }
         return "삭제 권한이 없습니다!";
