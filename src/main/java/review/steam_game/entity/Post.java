@@ -28,15 +28,15 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Comment> commentList = new ArrayList<>();
 
-    public Post(PostRequestDto postRequestDto) {
+    public Post(PostRequestDto postRequestDto, String imageUrl) {
         this.title = postRequestDto.getTitle();
         this.comment = postRequestDto.getComment();
-        this.image = postRequestDto.getImage();
+        this.image = imageUrl;
     }
+
 
     public void update(PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();
         this.comment = postRequestDto.getComment();
-        this.image = postRequestDto.getImage();
     }
 }
