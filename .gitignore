@@ -182,4 +182,3 @@ application-dbconnect.properties
 
 # H2 config file
 application-h2connect.properties
-application.properties
