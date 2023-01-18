@@ -37,11 +37,12 @@ public class WebSecurityConfig {
     };
 
     private static final String[] MAIN_URL = {
-            "/api/main/searchGame"
+            "/api/main/**",
+
     };
 
     private static final String[] DETAIL_URL = {
-
+            "/api/post/**"
     };
 
     @Bean
@@ -53,7 +54,7 @@ public class WebSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
 
         return (web) -> web.ignoring()
-//                .requestMatchers(PathRequest.toH2Console())
+                //.requestMatchers(PathRequest.toH2Console())
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
