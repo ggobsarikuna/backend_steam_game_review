@@ -2,7 +2,7 @@ package review.steam_game.entity.Post;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import review.steam_game.dto.post.PostRequestDto;
+import review.steam_game.dto.post.AdminPostRequestDto;
 import review.steam_game.entity.Comment;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Post {
+public class AdminPost {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -30,14 +30,14 @@ public class Post {
     @JoinColumn(name = "IMAGE_ID")
     private Image image;
 
-    public Post(PostRequestDto postRequestDto, Image image) {
-        this.title = postRequestDto.getTitle();
-        this.comment = postRequestDto.getComment();
+    public AdminPost(AdminPostRequestDto adminPostRequestDto, Image image) {
+        this.title = adminPostRequestDto.getTitle();
+        this.comment = adminPostRequestDto.getComment();
         this.image = image;
     }
 
-    public void update(PostRequestDto postRequestDto){
-        this.title = postRequestDto.getTitle();
-        this.comment = postRequestDto.getComment();
+    public void update(AdminPostRequestDto adminPostRequestDto){
+        this.title = adminPostRequestDto.getTitle();
+        this.comment = adminPostRequestDto.getComment();
     }
 }
