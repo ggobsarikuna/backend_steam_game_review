@@ -34,7 +34,6 @@ public class Post {
         this.image = imageUrl;
     }
 
-
     public void update(PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();
         this.comment = postRequestDto.getComment();

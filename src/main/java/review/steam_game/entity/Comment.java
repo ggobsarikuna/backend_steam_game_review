@@ -3,6 +3,7 @@ package review.steam_game.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import review.steam_game.dto.detail.CommentRequestDto;
+import review.steam_game.entity.user.User;
 
 import javax.persistence.*;
 
@@ -36,6 +37,10 @@ public class Comment {
     @JoinColumn(name = "post_Id")
     private Post post;
 
+    @ManyToOne
+    @JoinColumn(name = "user_Id")
+    private User user;
+
 //    public Comment(CommentRequestDto commentRequestDto){
 //        this.comment = commentRequestDto.getComment();
 //    }
@@ -45,6 +50,11 @@ public class Comment {
 //        this.test = commentRequestDto.getTest();
     }
 
+    public Comment(Post post, CommentRequestDto commentRequestDto, User user) {
+        this.post = post;
+        this.comment = commentRequestDto.getComment();
+        this.user = user;
+    }
 
 
 //    public Comment(String test, String comment){

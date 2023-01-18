@@ -12,8 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 public class CommentRequestDto {
     private String comment;
-    private String userid;
-    private Long postId;
+//    private String userid;
+//    private Long postId;
 
 //    List<String> comments;
 
