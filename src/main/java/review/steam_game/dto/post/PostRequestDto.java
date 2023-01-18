@@ -7,5 +7,4 @@ import org.springframework.web.multipart.MultipartFile;
 public class PostRequestDto {
     private String title;
     private String comment;
-    private MultipartFile file;
 }

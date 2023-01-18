@@ -3,6 +3,7 @@ package review.steam_game.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import review.steam_game.dto.detail.CommentRequestDto;
+import review.steam_game.entity.Post.Post;
 
 import javax.persistence.*;
 
