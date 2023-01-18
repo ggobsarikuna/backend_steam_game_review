@@ -3,19 +3,24 @@ package review.steam_game.service.detail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import review.steam_game.config.exception.CheckApiException;
+import review.steam_game.config.exception.ErrorCode;
 import review.steam_game.dto.detail.CommentRequestDto;
 import review.steam_game.entity.Comment;
 import review.steam_game.entity.Post;
 import review.steam_game.repository.detail.CommentRepository;
+import review.steam_game.repository.post.PostRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class CommentService {
     private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
 
     // 전체 댓글 조회
     public List<CommentRequestDto> getComment(Long postId) {
@@ -29,7 +34,8 @@ public class CommentService {
 
     //댓글 작성
     public String createComment(CommentRequestDto commentRequestDto) {
-        commentRepository.saveAndFlush(new Comment(commentRequestDto));
+        Post post = postRepository.findById(commentRequestDto.getPostId()).orElseThrow(() -> new CheckApiException(ErrorCode.FAIL_CREATE_COMMENT));
+        commentRepository.saveAndFlush(new Comment(commentRequestDto, post));
         return "댓글 등록 성공!";
     }
 
