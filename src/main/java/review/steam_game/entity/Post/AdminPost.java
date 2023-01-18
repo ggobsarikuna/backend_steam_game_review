@@ -23,7 +23,7 @@ public class AdminPost {
     @Column(nullable = false)
     private String comment;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy = "adgminPost", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToOne
