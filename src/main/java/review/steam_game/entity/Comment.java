@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-public class Comment {
+public class Comment extends BaseTimeEntity{
     @Id @GeneratedValue
     @Column(name = "comment_id")
     private Long Id;
@@ -40,9 +40,9 @@ public class Comment {
 //        this.comment = commentRequestDto.getComment();
 //    }
 
-    public Comment(CommentRequestDto commentRequestDto){
+    public Comment(CommentRequestDto commentRequestDto, Post post){
         this.comment = commentRequestDto.getComment();
-//        this.test = commentRequestDto.getTest();
+        this.post = post;
     }
 
 
