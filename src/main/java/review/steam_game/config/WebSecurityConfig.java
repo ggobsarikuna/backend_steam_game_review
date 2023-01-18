@@ -53,7 +53,7 @@ public class WebSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
 
         return (web) -> web.ignoring()
-                .requestMatchers(PathRequest.toH2Console())
+//                .requestMatchers(PathRequest.toH2Console())
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
@@ -65,6 +65,7 @@ public class WebSecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/detail/**").permitAll()
                 .antMatchers(SWAGGER_URL).permitAll()
                 .antMatchers(MAIN_URL).permitAll()
                 .antMatchers(DETAIL_URL).permitAll()

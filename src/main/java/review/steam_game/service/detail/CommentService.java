@@ -5,13 +5,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import review.steam_game.dto.detail.CommentRequestDto;
 import review.steam_game.entity.Comment;
+import review.steam_game.entity.Post;
 import review.steam_game.repository.detail.CommentRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class CommentService {
     private final CommentRepository commentRepository;
+
+    // 전체 댓글 조회
+    public List<CommentRequestDto> getComment(Long postId) {
+        List<Comment> commentList = commentRepository.findByPost_Id(postId);
+        List<CommentRequestDto> commentRequestDtoList = new ArrayList<>();
+        for (Comment comment : commentList){
+            commentRequestDtoList.add(new CommentRequestDto(comment));
+        }
+        return commentRequestDtoList;
+    }
 
     //댓글 작성
     public String createComment(CommentRequestDto commentRequestDto) {
@@ -33,4 +47,22 @@ public class CommentService {
     }
 
 
+
+
+
+//    public List<Comment> testCreateComment(List<String> comments, String postId, CommentRequestDto commentRequestDto) {
+//        Comment comment = new Comment(commentRequestDto);
+//        commentRepository.saveAndFlush(comment);
+//        return "댓글 등록 성공!";
+//    }
+
+
+//    public List<CommentRequestDto> testGetComment() {
+//        List<Comment> commentList = commentRepository.findById();
+//        List<CommentRequestDto> commentRequestDtoList = new ArrayList<>();
+//        for (Comment comment : commentList){
+//            commentRequestDtoList.add(new CommentRequestDto(comment));
+//        }
+//        return commentRequestDtoList;
+//    }
 }
