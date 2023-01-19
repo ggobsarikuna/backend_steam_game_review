@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import review.steam_game.dto.post.PostRequestDto;
 import review.steam_game.entity.Post.Image;
@@ -73,6 +74,7 @@ public class AdminFunctionService {
         }
         return "게시물 등록에 실패 하였습니다.";
     }
+    @Transactional
     public String updatePost(Long postId, MultipartFile file, PostRequestDto postRequestDto) throws IOException {
         if (!file.isEmpty()) {
             //파일명을 얻어낼 수 있는 메소드
@@ -102,25 +104,30 @@ public class AdminFunctionService {
             //S3에 저장
             amazonS3Client.putObject(new PutObjectRequest(bucketName, saveFileName, byteArrayIS, objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
+
             //이미지 url 받아오기
             String imageUrl = amazonS3Client.getUrl(bucketName, saveFileName).toString();
             Post post = postRepository.findById(postId).orElseThrow(
-                    () -> new IllegalArgumentException("일치하는 아이디가 없습니다.")
+                    ()-> new IllegalArgumentException("일치하는 아이디가 없습니다.")
             );
-            post.getImage().update(saveFileName, imageUrl);
+            //기존 이미지 삭제
+            amazonS3Client.deleteObject(bucketName, post.getImage().getImageName());
             post.update(postRequestDto);
+            post.getImage().update(saveFileName, imageUrl);
             return "수정 성공";
         }
         return "수정 실패";
     }
 
     public String deletePost(Long postId) {
-        //이미지 삭제하기
-        amazonS3Client.deleteObject(bucketName, postRepository.findById(postId).orElseThrow(
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("일치하는 아이디가 없습니다.")
-        ).getImage().getImageName());
+        );
         //게시글 삭제하기
         postRepository.deleteById(postId);
+        //이미지 삭제하기
+        amazonS3Client.deleteObject(bucketName, post.getImage().getImageName());
+        imageRepository.deleteById(post.getImage().getId());
         return "삭제가 완료되었습니다.";
     }
 }

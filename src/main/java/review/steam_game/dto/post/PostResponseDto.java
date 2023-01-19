@@ -16,6 +16,6 @@ public class PostResponseDto {
         this.explanation = post.getExplanation();
         this.imageUrl = post.getImage().getImageUrl();
         this.postId = post.getId();
-        this.genre = post.getGenre().toString();
+        this.genre = post.getGenre().toString().toUpperCase();
     }
 }
