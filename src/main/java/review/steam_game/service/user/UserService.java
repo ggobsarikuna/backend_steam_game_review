@@ -1,12 +1,14 @@
 package review.steam_game.service.user;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import review.steam_game.config.exception.CheckApiException;
 import review.steam_game.config.exception.ErrorCode;
 import review.steam_game.config.jwt.JwtUtil;
+import review.steam_game.dto.user.UserIdRequestDto;
 import review.steam_game.dto.user.UserLoginDto;
 import review.steam_game.dto.user.UserSignUpDto;
 import review.steam_game.entity.user.User;
@@ -18,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final JwtUtil jwtUtil;
@@ -41,6 +44,16 @@ public class UserService {
 
         User user = new User(userid, password, email, role);
         userRepository.save(user);
+    }
+
+    @Transactional
+    public void checkUserId(UserIdRequestDto userIdRequestDto) {
+        Optional<User> user = userRepository.findByUserid(userIdRequestDto.getUserid());
+        log.info(userIdRequestDto.getUserid());
+        log.info(user.toString());
+        if(user.isPresent()){
+            throw new CheckApiException(ErrorCode.EXISTS_USER);
+        }
     }
 
     @Transactional(readOnly = true)
