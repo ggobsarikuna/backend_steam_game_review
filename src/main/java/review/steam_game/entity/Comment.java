@@ -1,7 +1,9 @@
 package review.steam_game.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 import review.steam_game.dto.detail.CommentRequestDto;
 import review.steam_game.entity.Post.Post;
 import review.steam_game.entity.user.User;
@@ -9,13 +11,13 @@ import review.steam_game.entity.user.User;
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
 @NoArgsConstructor
 public class Comment extends BaseTimeEntity{
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    private Long Id;
-
+    private Long id;
 
     @Column(nullable = false)
     private String comment;
@@ -35,18 +37,18 @@ public class Comment extends BaseTimeEntity{
 //    private Long postId;
 
     @ManyToOne
-    @JoinColumn(name = "post_Id")
+    @JoinColumn(name = "post_id")
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "user_Id")
+    @JoinColumn(name = "user_id")
     private User user;
 
 //    public Comment(CommentRequestDto commentRequestDto){
 //        this.comment = commentRequestDto.getComment();
 //    }
 
-    public Comment(CommentRequestDto commentRequestDto, Post post){
+    public Comment(Post post, CommentRequestDto commentRequestDto){
         this.comment = commentRequestDto.getComment();
         this.post = post;
     }

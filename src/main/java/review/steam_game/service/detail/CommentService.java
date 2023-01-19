@@ -26,8 +26,8 @@ public class CommentService {
     private final PostRepository postRepository;
 
     // 전체 댓글 조회
-    public List<CommentRequestDto> getComment(Long postId) {
-        List<Comment> commentList = commentRepository.findByPost_Id(postId);
+    public List<CommentRequestDto> getComment(Post post) {
+        List<Comment> commentList = commentRepository.findByPost(post);
         List<CommentRequestDto> commentRequestDtoList = new ArrayList<>();
         for (Comment comment : commentList){
             commentRequestDtoList.add(new CommentRequestDto(comment));
@@ -36,12 +36,12 @@ public class CommentService {
     }
 
     //댓글 작성
-    public CommentResponseDto createComment(Long id, CommentRequestDto commentRequestDto, User user) {
+    public CommentResponseDto createComment(Long id, CommentRequestDto commentRequestDto) {
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new CheckApiException(ErrorCode.FAIL_CREATE_COMMENT)
         );
 
-        Comment comment = new Comment(post, commentRequestDto, user);
+        Comment comment = new Comment(post, commentRequestDto);
         commentRepository.save(comment);
 //        commentRepository.saveAndFlush(new Comment(commentRequestDto));
         return new CommentResponseDto(comment);
@@ -56,11 +56,11 @@ public class CommentService {
         Comment comment;
 
         if(user.getRole().equals(UserRoleEnum.ADMIN)){
-            comment = commentRepository.findByCommentId(commentId).orElseThrow(
+            comment = commentRepository.findById(commentId).orElseThrow(
                     () -> new CheckApiException(ErrorCode.NOT_EXISTS_COMMENT)
             );
         } else {
-            comment = commentRepository.findByIdAndUserId(commentId, user).orElseThrow(
+            comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(
                     () -> new CheckApiException(ErrorCode.NOT_CREATE_COMMENT_USER)
             );
         }
@@ -79,11 +79,11 @@ public class CommentService {
         Comment comment;
 
         if(user.getRole().equals(UserRoleEnum.ADMIN)){
-            comment = commentRepository.findByCommentId(commentId).orElseThrow(
+            comment = commentRepository.findById(commentId).orElseThrow(
                     () -> new CheckApiException(ErrorCode.NOT_CREATE_COMMENT_USER)
             );
         } else {
-            comment = commentRepository.findByIdAndUserId(commentId, user).orElseThrow(
+            comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(
                     () -> new CheckApiException(ErrorCode.NOT_CREATE_COMMENT_USER)
             );
         }

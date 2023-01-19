@@ -8,12 +8,15 @@ import review.steam_game.config.security.UserDetailsImpl;
 import review.steam_game.dto.detail.CommentRequestDto;
 import review.steam_game.dto.detail.CommentResponseDto;
 import review.steam_game.entity.Comment;
+import review.steam_game.entity.Post.Post;
 import review.steam_game.service.detail.CommentService;
 
 import java.util.List;
+import java.util.Optional;
+
+@RestController
 @ApiOperation("게시글 댓글 작성 수정 삭제")
 @CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
-@RestController
 @RequestMapping("/detail")
 @RequiredArgsConstructor
 public class CommentController {
@@ -21,7 +24,7 @@ public class CommentController {
 
     //댓글 전체 조회
     @GetMapping("/comment/{postId}")
-    public List<CommentRequestDto> getComment(@PathVariable Long postId) {
+    public List<CommentRequestDto> getComment(@PathVariable Post postId) {
         return commentService.getComment(postId);
     }
 
@@ -33,9 +36,9 @@ public class CommentController {
     //댓글 작성
     @PostMapping("/comment/{postId}")
     public CommentResponseDto createComment(@PathVariable Long postId,
-                                            @RequestBody CommentRequestDto commentRequestDto,
-                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return commentService.createComment(postId, commentRequestDto, userDetails.getUser());
+                                            @RequestBody CommentRequestDto commentRequestDto
+                                            ) {
+        return commentService.createComment(postId, commentRequestDto);
     }
 
     //댓글 작성 테스트
