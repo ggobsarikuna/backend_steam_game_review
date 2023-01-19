@@ -50,7 +50,7 @@ dependencies {
 	//MYSQL
 	runtimeOnly 'mysql:mysql-connector-java'
 	//h2
-//	runtimeOnly 'com.h2database:h2'
+
 }
 
 tasks.named('test') {
