@@ -21,7 +21,7 @@ public class Post {
     private String title;
 
     @Column(nullable = false)
-    private String comment;
+    private String explanation;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Comment> commentList = new ArrayList<>();
@@ -32,12 +32,12 @@ public class Post {
 
     public Post(PostRequestDto postRequestDto, Image image) {
         this.title = postRequestDto.getTitle();
-        this.comment = postRequestDto.getComment();
+        this.explanation = postRequestDto.getExplanation();
         this.image = image;
     }
 
     public void update(PostRequestDto postRequestDto){
         this.title = postRequestDto.getTitle();
-        this.comment = postRequestDto.getComment();
+        this.explanation = postRequestDto.getExplanation();
     }
 }

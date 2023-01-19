@@ -5,14 +5,14 @@ import review.steam_game.entity.Post.Post;
 
 @Getter
 public class PostResponseDto {
-    private String title;
-    private String comment;
-    private String imageUrl;
-    private Long postId;
+    private final String title;
+    private final String explanation;
+    private final String imageUrl;
+    private final Long postId;
 
     public PostResponseDto(Post post) {
         this.title = post.getTitle();
-        this.comment = post.getComment();
+        this.explanation = post.getExplanation();
         this.imageUrl = post.getImage().getImageUrl();
         this.postId = post.getId();
     }
