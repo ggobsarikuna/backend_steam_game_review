@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 public class Post extends BaseTimeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="post_id")
     private Long id;
 
@@ -39,7 +39,7 @@ public class Post extends BaseTimeEntity {
     public Post(PostRequestDto postRequestDto, Image image) {
         this.title = postRequestDto.getTitle();
         this.explanation = postRequestDto.getExplanation();
-        this.genre = Enum.valueOf(Genre.class ,postRequestDto.getGenre());
+        this.genre = Enum.valueOf(Genre.class, postRequestDto.getGenre().toUpperCase());
         this.image = image;
 
     }
@@ -47,5 +47,6 @@ public class Post extends BaseTimeEntity {
     public void update(PostRequestDto postRequestDto){
         this.title = postRequestDto.getTitle();
         this.explanation = postRequestDto.getExplanation();
+        this.genre = Enum.valueOf(Genre.class, postRequestDto.getGenre().toUpperCase());
     }
 }

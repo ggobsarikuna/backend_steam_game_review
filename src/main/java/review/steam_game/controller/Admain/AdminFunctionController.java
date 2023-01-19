@@ -16,7 +16,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Slf4j
 //ADMIN계정만 이용가능
-@Secured({UserRoleEnum.Authority.ADMIN})
+//@Secured({UserRoleEnum.Authority.ADMIN})
 public class AdminFunctionController {
     private final AdminFunctionService adminFunctionService;
 
@@ -29,10 +29,11 @@ public class AdminFunctionController {
     }
 
     //post수정
-    @PutMapping(value = "/api/image/{postId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/api/post/{postId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_JSON_VALUE})
     public String updatePost(@PathVariable Long postId,
                              @RequestPart(value = "file") MultipartFile file,
                              @RequestPart PostRequestDto postRequestDto) throws IOException {
+        log.info(postId.toString());
         return adminFunctionService.updatePost(postId, file, postRequestDto);
     }
 
