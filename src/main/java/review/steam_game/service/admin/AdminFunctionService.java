@@ -10,11 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import review.steam_game.dto.post.AdminPostRequestDto;
+import review.steam_game.dto.post.PostRequestDto;
 import review.steam_game.entity.Post.Image;
-import review.steam_game.entity.Post.AdminPost;
+import review.steam_game.entity.Post.Post;
 import review.steam_game.repository.post.ImageRepository;
-import review.steam_game.repository.post.AdminPostRepository;
+import review.steam_game.repository.post.PostRepository;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -24,13 +24,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class AdminFunctionService {
-    private final AdminPostRepository adminPostRepository;
+    private final PostRepository postRepository;
     private final ImageRepository imageRepository;
     private final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-    public String createPost(MultipartFile file, AdminPostRequestDto adminPostRequestDto) throws IOException {
+    public String createPost(MultipartFile file, PostRequestDto postRequestDto) throws IOException {
         log.info("여기까지 돌아간다.");
         if (!file.isEmpty()) {
             //파일명을 얻어낼 수 있는 메소드
@@ -67,13 +67,13 @@ public class AdminFunctionService {
             Image image = new Image(saveFileName, imageUrl);
             imageRepository.save(image);
             //db에 포스트 저장하기
-            AdminPost adminPost = new AdminPost(adminPostRequestDto, image);
-            adminPostRepository.save(adminPost);
+            Post post = new Post(postRequestDto, image);
+            postRepository.save(post);
             return imageUrl;
         }
         return "게시물 등록에 실패 하였습니다.";
     }
-    public String updatePost(Long postId, MultipartFile file, AdminPostRequestDto adminPostRequestDto) throws IOException {
+    public String updatePost(Long postId, MultipartFile file, PostRequestDto postRequestDto) throws IOException {
         if (!file.isEmpty()) {
             //파일명을 얻어낼 수 있는 메소드
             String fileRealName = file.getOriginalFilename();
@@ -104,11 +104,11 @@ public class AdminFunctionService {
                     .withCannedAcl(CannedAccessControlList.PublicRead));
             //이미지 url 받아오기
             String imageUrl = amazonS3Client.getUrl(bucketName, saveFileName).toString();
-            AdminPost adminPost = adminPostRepository.findById(postId).orElseThrow(
+            Post post = postRepository.findById(postId).orElseThrow(
                     () -> new IllegalArgumentException("일치하는 아이디가 없습니다.")
             );
-            adminPost.getImage().update(saveFileName, imageUrl);
-            adminPost.update(adminPostRequestDto);
+            post.getImage().update(saveFileName, imageUrl);
+            post.update(postRequestDto);
             return "수정 성공";
         }
         return "수정 실패";
@@ -116,11 +116,11 @@ public class AdminFunctionService {
 
     public String deletePost(Long postId) {
         //이미지 삭제하기
-        amazonS3Client.deleteObject(bucketName, adminPostRepository.findById(postId).orElseThrow(
+        amazonS3Client.deleteObject(bucketName, postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("일치하는 아이디가 없습니다.")
         ).getImage().getImageName());
         //게시글 삭제하기
-        adminPostRepository.deleteById(postId);
+        postRepository.deleteById(postId);
         return "삭제가 완료되었습니다.";
     }
 }

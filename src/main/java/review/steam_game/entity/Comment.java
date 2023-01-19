@@ -3,7 +3,7 @@ package review.steam_game.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import review.steam_game.dto.detail.CommentRequestDto;
-import review.steam_game.entity.Post.AdminPost;
+import review.steam_game.entity.Post.Post;
 
 import javax.persistence.*;
 
@@ -30,7 +30,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "post_Id")
-    private AdminPost adminPost;
+    private Post post;
 
     public Comment(CommentRequestDto commentRequestDto){
         this.comment = commentRequestDto.getComment();
