@@ -6,6 +6,7 @@ import review.steam_game.entity.Post;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -27,5 +28,6 @@ public class PostCommentResponseDto {
         this.title = post.getTitle();
         this.imageUrl = post.getImageUrl();
         this.genre = post.getGenre();
+        this.comments = post.getCommentList().stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 }

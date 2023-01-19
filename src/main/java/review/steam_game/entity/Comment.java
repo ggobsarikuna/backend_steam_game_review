@@ -13,7 +13,8 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 public class Comment extends BaseTimeEntity{
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;
 
@@ -35,11 +36,11 @@ public class Comment extends BaseTimeEntity{
 //    private Long postId;
 
     @ManyToOne
-    @JoinColumn(name = "post_Id")
+    @JoinColumn(name = "post_id")
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "user_Id")
+    @JoinColumn(name = "user_id")
     private User user;
 
 //    public Comment(CommentRequestDto commentRequestDto){
