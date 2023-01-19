@@ -1,4 +1,4 @@
-package review.steam_game.controller.Admain;
+package review.steam_game.controller.Admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Slf4j
 //ADMIN계정만 이용가능
-//@Secured({UserRoleEnum.Authority.ADMIN})
+@Secured({UserRoleEnum.Authority.ADMIN})
 public class AdminFunctionController {
     private final AdminFunctionService adminFunctionService;
 

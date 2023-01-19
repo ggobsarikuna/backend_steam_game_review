@@ -20,7 +20,7 @@ public class PostCommentResponseDto {
     private String genre;
     private String imageUrl;
 
-    private List<CommentResponseDto> comments;
+    private String explanation;
 
     public PostCommentResponseDto(Post post) {
         this.id = post.getId();
@@ -29,6 +29,6 @@ public class PostCommentResponseDto {
         this.title = post.getTitle();
         this.imageUrl = post.getImage().getImageUrl();
         this.genre = post.getGenre().toString();
-        this.comments = post.getCommentList().stream().map(CommentResponseDto::new).collect(Collectors.toList());
+        this.explanation = post.getExplanation();
     }
 }
