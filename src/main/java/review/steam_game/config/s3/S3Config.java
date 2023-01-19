@@ -1,4 +1,4 @@
-package com.sparta.personal_assignment.config;
+package review.steam_game.config.s3;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

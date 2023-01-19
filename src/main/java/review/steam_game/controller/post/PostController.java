@@ -1,19 +1,31 @@
 package review.steam_game.controller.post;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import review.steam_game.dto.post.PostCommentResponseDto;
 import review.steam_game.dto.post.PostResponseDto;
 import review.steam_game.service.post.PostService;
 
 import java.util.List;
 
+@ApiOperation("게임 정보 상세")
 @RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class PostController {
+
     private final PostService postService;
-    @GetMapping("/api/post")
+
+    @GetMapping("/post/{postId}")
+    public PostCommentResponseDto getDetail(@PathVariable Long postId) {
+        PostCommentResponseDto detail = postService.getDetail(postId);
+        return detail;
+    }
+
+    @GetMapping("/post")
     public List<PostResponseDto> showPost() {
         return postService.showPost();
     }
+
 }
