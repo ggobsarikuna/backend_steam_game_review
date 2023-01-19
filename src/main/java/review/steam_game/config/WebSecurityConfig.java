@@ -42,7 +42,8 @@ public class WebSecurityConfig {
     };
 
     private static final String[] DETAIL_URL = {
-            "/api/post/**"
+            "/api/post/**",
+            "/detail/comment/**"
     };
 
     @Bean
