@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import review.steam_game.entity.Comment;
-import review.steam_game.entity.Post;
+import review.steam_game.entity.Post.Post;
 import review.steam_game.entity.user.User;
 
 import java.util.List;

@@ -8,7 +8,7 @@ import review.steam_game.config.exception.ErrorCode;
 import review.steam_game.dto.detail.CommentRequestDto;
 import review.steam_game.dto.detail.CommentResponseDto;
 import review.steam_game.entity.Comment;
-import review.steam_game.entity.Post;
+import review.steam_game.entity.Post.Post;
 import review.steam_game.entity.user.User;
 import review.steam_game.entity.user.UserRoleEnum;
 import review.steam_game.repository.detail.CommentRepository;

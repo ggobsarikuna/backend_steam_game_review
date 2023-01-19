@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import review.steam_game.dto.detail.CommentRequestDto;
+import review.steam_game.entity.Post.Post;
 import review.steam_game.entity.user.User;
 
 import javax.persistence.*;

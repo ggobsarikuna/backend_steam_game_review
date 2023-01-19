@@ -4,7 +4,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import review.steam_game.dto.post.PostCommentResponseDto;
+import review.steam_game.dto.post.PostResponseDto;
 import review.steam_game.service.post.PostService;
+
+import java.util.List;
 
 @ApiOperation("게임 정보 상세")
 @RestController
@@ -20,5 +23,9 @@ public class PostController {
         return detail;
     }
 
+    @GetMapping("/post")
+    public List<PostResponseDto> showPost() {
+        return postService.showPost();
+    }
 
 }
