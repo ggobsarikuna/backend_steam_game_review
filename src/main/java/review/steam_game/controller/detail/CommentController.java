@@ -36,9 +36,9 @@ public class CommentController {
     //댓글 작성
     @PostMapping("/comment/{postId}")
     public CommentResponseDto createComment(@PathVariable Long postId,
-                                            @RequestBody CommentRequestDto commentRequestDto
-                                            ) {
-        return commentService.createComment(postId, commentRequestDto);
+                                            @RequestBody CommentRequestDto commentRequestDto,
+                                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.createComment(postId, commentRequestDto, userDetails);
     }
 
     //댓글 작성 테스트

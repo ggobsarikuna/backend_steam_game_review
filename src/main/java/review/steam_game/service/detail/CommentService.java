@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import review.steam_game.config.exception.CheckApiException;
 import review.steam_game.config.exception.ErrorCode;
+import review.steam_game.config.security.UserDetailsImpl;
 import review.steam_game.dto.detail.CommentRequestDto;
 import review.steam_game.dto.detail.CommentResponseDto;
 import review.steam_game.entity.Comment;
@@ -36,12 +37,12 @@ public class CommentService {
     }
 
     //댓글 작성
-    public CommentResponseDto createComment(Long id, CommentRequestDto commentRequestDto) {
+    public CommentResponseDto createComment(Long id, CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new CheckApiException(ErrorCode.FAIL_CREATE_COMMENT)
         );
 
-        Comment comment = new Comment(post, commentRequestDto);
+        Comment comment = new Comment(post, commentRequestDto, userDetails.getUser());
         commentRepository.save(comment);
 //        commentRepository.saveAndFlush(new Comment(commentRequestDto));
         return new CommentResponseDto(comment);
