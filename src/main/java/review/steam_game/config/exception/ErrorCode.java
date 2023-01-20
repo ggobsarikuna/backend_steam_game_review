@@ -18,7 +18,9 @@ public enum ErrorCode {
     NOT_EXISTS_POSTS_USER(HttpStatus.BAD_REQUEST, "400", "해당 게시글 작성자가 아닙니다."),
     EXISTS_USER(HttpStatus.BAD_REQUEST, "400", "중복된 사용자가 존재합니다."),
     NOT_EQUALS_PASSWORD(HttpStatus.BAD_REQUEST, "400", "비밀번호가 일치하지 않습니다."),
-    NOT_EXISTS_USER(HttpStatus.BAD_REQUEST,"400", "등록된 사용자가 없습니다.");
+    NOT_EXISTS_USER(HttpStatus.BAD_REQUEST,"400", "등록된 사용자가 없습니다."),
+    EMPTY_FILE(HttpStatus.BAD_REQUEST, "400", "이미지를 추가해야 합니다.");
+
 
 
     private final HttpStatus httpStatus;

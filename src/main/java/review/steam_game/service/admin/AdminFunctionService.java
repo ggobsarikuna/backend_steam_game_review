@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import review.steam_game.config.exception.CheckApiException;
+import review.steam_game.config.exception.ErrorCode;
 import review.steam_game.dto.post.PostRequestDto;
 import review.steam_game.entity.Post.Image;
 import review.steam_game.entity.Post.Post;
@@ -31,12 +33,10 @@ public class AdminFunctionService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-    public String createPost(MultipartFile file, PostRequestDto postRequestDto) throws IOException {
-        log.info("여기까지 돌아간다.");
+    public void createPost(MultipartFile file, PostRequestDto postRequestDto) throws IOException {
         if (!file.isEmpty()) {
             //파일명을 얻어낼 수 있는 메소드
             String fileRealName = file.getOriginalFilename();
-            log.info("여기가지도 돌아간다.");
             //서버에 저장할 파일이름 fileextension으로 .jsp이런식의  확장자 명을 구함
             String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
 
@@ -57,7 +57,6 @@ public class AdminFunctionService {
 
             //저장될 파일 이름
             String saveFileName = uniqueName + fileExtension;
-            log.info(saveFileName);
 
             //S3에 저장
             amazonS3Client.putObject(new PutObjectRequest(bucketName, saveFileName, byteArrayIS, objectMetadata)
@@ -70,12 +69,13 @@ public class AdminFunctionService {
             //db에 포스트 저장하기
             Post post = new Post(postRequestDto, image);
             postRepository.save(post);
-            return imageUrl;
+        }else{
+            throw new CheckApiException(ErrorCode.EMPTY_FILE);
         }
-        return "게시물 등록에 실패 하였습니다.";
+
     }
     @Transactional
-    public String updatePost(Long postId, MultipartFile file, PostRequestDto postRequestDto) throws IOException {
+    public void updatePost(Long postId, MultipartFile file, PostRequestDto postRequestDto) throws IOException {
         if (!file.isEmpty()) {
             //파일명을 얻어낼 수 있는 메소드
             String fileRealName = file.getOriginalFilename();
@@ -114,12 +114,12 @@ public class AdminFunctionService {
             amazonS3Client.deleteObject(bucketName, post.getImage().getImageName());
             post.update(postRequestDto);
             post.getImage().update(saveFileName, imageUrl);
-            return "수정 성공";
+        }else{
+            throw new CheckApiException(ErrorCode.EMPTY_FILE);
         }
-        return "수정 실패";
     }
 
-    public String deletePost(Long postId) {
+    public void deletePost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("일치하는 아이디가 없습니다.")
         );
@@ -128,6 +128,5 @@ public class AdminFunctionService {
         //이미지 삭제하기
         amazonS3Client.deleteObject(bucketName, post.getImage().getImageName());
         imageRepository.deleteById(post.getImage().getId());
-        return "삭제가 완료되었습니다.";
     }
 }
